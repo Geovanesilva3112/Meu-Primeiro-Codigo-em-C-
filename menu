@@ -1,0 +1,133 @@
+meu primeiro codigo em C 
+
+#include <stdio.h>
+
+int mostrarPrecos() {
+    printf("\nPreços dos Serviços:\n");
+    printf("1. Troca de Óleo: R$ 80.00\n");     //um menu completo oque tem em um posto de gasolina,aonde amostrei ao usuario,as competncia do posto
+    printf("2. Higienização: R$ 50.00\n");     //abastecimento,serviços,lavagem,informando a ele os valores de cada serviço que ele for selecionar
+    printf("3. Borracharia: R$ 70.00\n");  
+    printf("4. balanceamento: R$ 100.00\n");    // usando o printf ,que é printa na tela do usuario
+    printf("5. Gasolina: R$ 5.50\n");
+    printf("6. alcool: R$ 4.99\n");
+    printf("7. Gas GNV: R$ 3.99\n");
+    printf("8. lavagem carro popular: R$25.00\n");
+    printf("8. lavagem carro aplicativo: R$19.99\n");
+    return 0; 
+}
+
+float abastecer(int tipo_combustivel, float litros) { //estrutura em float,pois são valores com ponto fluante ,poteria usar int se fosse numeros inteiros sem ponto flutuante 
+    float preco_gasolina = 5.50;
+    float preco_alcool = 4.99;                                    
+    float preco_gas_natural = 3.99; 
+    float preco_lavagem_carro_popular = 25.00;
+    float metros_cubicos = 3.99;
+    float total = 0.0;                                           
+ 
+    if (tipo_combustivel == 1) {   //usuando uma condiçao If para verificar se a variavel tipo de combustível é igual a 1 aonde o usuario escolheu
+        total = litros * preco_gasolina; // Calcula o custo total do abastecimento
+    } else if (tipo_combustivel == 2) { //verifica se tipo_combustivel é 2 (álcool). Se verdadeiro,  aonde vou calcula usando o preço do álcool.
+        total = litros * preco_alcool;
+    } else if (tipo_combustivel == 3) { ///verifica se tipo_combustivel é 3 (gás natural). Se verdadeiro, calcul aonde vou calcula total usando o preço do gás natural
+        total = metros_cubicos * preco_gas_natural; //permite calcule o custo do abastecimento de diferentes tipos de combustível com base na escolha do usuário
+    }
+
+    return total; 
+}
+
+float realizarServico(int tipo_servico, int quantidade) {
+    float preco_troca_oleo = 80.0;
+    float preco_higienizacao = 50.0;
+    float preco_borracharia = 70.0;
+    float balanceamento = 100.00;
+    float total = 0.0;
+
+    if (tipo_servico == 1) {
+        total = quantidade * preco_troca_oleo;
+        if (quantidade >= 10) {
+            total *= 0.9; // Desconto de 10%
+        }
+    } else if (tipo_servico == 2) { 
+        total = quantidade * preco_higienizacao;
+    } else if (tipo_servico == 3) { 
+        total = quantidade * preco_borracharia;
+    }
+
+    return total; 
+}
+
+int alterarPrecos(float* preco_combustivel, float* preco_servico) {
+    *preco_combustivel *= 1.2; // Aumento de 20%
+    *preco_servico *= 1.15; 
+    return 0; // Retorna 0 para indicar sucesso
+}
+
+int main() {
+    int opcao, tipo_combustivel, tipo_servico, quantidade; //declarei variaveis inteiras (int) onde vamos armazenar 
+    float litros, custo, total_geral = 0.0;     //declaração em float para armazenar numeros com casas decimais 
+    float preco_troca_oleo = 80.0;
+    float preco_higienizacao = 50.0;                         
+    float preco_borracharia = 70.0;                         
+
+    do {  // execultar o codigo  dentro do bloco uma estrutura do-while
+        printf("\nMenu:\n");
+        printf("1. Ver Preços dos Serviços\n");
+        printf("2. Abastecer\n");
+        printf("3. Realizar Serviço\n");
+        printf("4. Alterar Preços\n");
+        printf("0. Sair\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {      //minha decição , aonde estou avaliando minha variavel opçaõ 
+            case 1:  //se minha função for igual a 1 pode execultar , uma função que e junta com o switch
+                mostrarPrecos(); // Chama a função para mostrar os preços
+                break; //uso ele para sair do bloco do switch,sem ele parar de ser execultado
+
+            case 2: 
+                printf("Escolha o tipo de combustível:\n");
+                printf("1. Gasolina\n");
+                printf("2. Álcool\n");
+                printf("3. Gás Natural\n");
+                printf("Digite o tipo de combustível: ");
+                scanf("%d", &tipo_combustivel);
+                printf("Digite a quantidade em litros ou metros_cubicos: ");
+                scanf("%f", &litros);
+                custo = abastecer(tipo_combustivel, litros);
+                total_geral += custo;
+                printf("Custo total do abastecimento: R$ %.2f\n", custo);
+                break;
+
+            case 3: 
+                printf("Escolha o tipo de serviço:\n");
+                printf("1. Troca de Óleo\n");
+                printf("2. Higienização\n");
+                printf("3. Borracharia\n");
+                printf("Digite o tipo de serviço: ");
+                scanf("%d", &tipo_servico);
+                printf("Digite a quantidade de serviços: ");
+                scanf("%d", &quantidade);
+                custo = realizarServico(tipo_servico, quantidade);
+                total_geral += custo;
+                printf("Custo total do serviço: R$ %.2f\n", custo);
+                break;
+
+            case 4: 
+                alterarPrecos(&preco_troca_oleo, &preco_higienizacao);
+                alterarPrecos(&preco_troca_oleo, &preco_borracharia);
+                printf("Preços alterados com sucesso.\n");
+                break;
+
+            case 0: 
+                printf("Saindo...\n");
+                printf("valor a pagar: R$ %.2f\n", total_geral);
+                break;
+
+            default:
+                printf("Opção inválida! Tente novamente.\n");
+                break;
+        }
+
+    } while (opcao != 0); // fechei o laço ,se o usuario não aperta,o numero 0 ele ficara se petindo ate ele aperta , ele apertando o codigo é finalizado
+    return 0;
+}
